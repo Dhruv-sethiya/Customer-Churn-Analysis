@@ -1,4 +1,4 @@
-CREATE DATABASE customer_churn;
+﻿CREATE DATABASE customer_churn;
 USE customer_churn;
 SELECT COUNT(*) AS total_customers
 FROM staging_customer_churn;
@@ -220,17 +220,6 @@ FROM staging_customer_churn
 GROUP BY contract
 ORDER BY average_cltv DESC;
 -- ============================================
--- Query 29 : Average CLTV by Contract
--- ============================================
-
-SELECT
-    contract,
-    ROUND(AVG(cltv),2) AS average_cltv
-FROM staging_customer_churn
-GROUP BY contract
-ORDER BY average_cltv DESC;
-
--- ============================================
 -- Query 31 : Rank Customers by Total Charges
 -- ============================================
 
@@ -238,15 +227,6 @@ SELECT
     customer_id,
     total_charges,
     RANK() OVER (ORDER BY total_charges DESC) AS customer_rank
-FROM staging_customer_churn;
--- ============================================
--- Query 32 : Dense Rank by CLTV
--- ============================================
-
-SELECT
-    customer_id,
-    cltv,
-    DENSE_RANK() OVER (ORDER BY cltv DESC) AS cltv_rank
 FROM staging_customer_churn;
 -- ============================================
 -- Query 32 : Dense Rank by CLTV
@@ -307,21 +287,6 @@ FROM staging_customer_churn;
 SELECT *
 FROM customer_summary
 LIMIT 10;
-SELECT *
-FROM customer_summary
-LIMIT 10;
-SELECT *
-FROM churn_summary;
--- ============================================
--- Query 38 : Running Revenue
--- ============================================
-
-SELECT
-    customer_id,
-    total_charges,
-    SUM(total_charges)
-        OVER(ORDER BY total_charges DESC) AS running_revenue
-FROM staging_customer_churn;
 -- ============================================
 -- Query 38 : Running Revenue
 -- ============================================
@@ -346,15 +311,5 @@ SELECT
     ) AS revenue_percentage
 FROM staging_customer_churn;
 -- ============================================
--- Query 39 : Revenue Contribution
--- ============================================
 
-SELECT
-    customer_id,
-    total_charges,
-    ROUND(
-        total_charges * 100 /
-        SUM(total_charges) OVER(),
-        2
-    ) AS revenue_percentage
-FROM staging_customer_churn;
+
